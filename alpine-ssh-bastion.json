@@ -1,0 +1,194 @@
+{
+  "description": "Alpine Linux based secure SSH bastion",
+  "variables": {
+    "image_name": "alpine-ssh-bastion",
+    "image_version": "0.1.0",
+
+    "headless": "true",
+    "disk_size": "10240",
+    "memory": "512",
+    "cpus": "1",
+
+    "atlas_user": "olbat",
+    "atlas_token": "{{env `ATLAS_TOKEN`}}",
+
+    "alpine_version": "3.6",
+
+    "jump_user": "jump",
+    "sshd_port": "1234",
+    "root_password": "I'm too lazy to change the root password :(",
+    "admin_password": "I'm too lazy to change the admin password :("
+  },
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "vm_name": "bastion",
+      "headless": "{{user `headless`}}",
+
+      "guest_os_type": "Linux26_64",
+      "guest_additions_mode": "disable",
+      "hard_drive_interface": "sata",
+      "disk_size": "{{user `disk_size`}}",
+      "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--memory", "{{user `memory`}}"],
+        ["modifyvm", "{{.Name}}", "--cpus", "{{user `cpus`}}"]
+      ],
+
+      "iso_urls": ["https://nl.alpinelinux.org/alpine/latest-stable/releases/x86_64/alpine-virt-{{user `alpine_version`}}.0-x86_64.iso"],
+      "iso_checksum": "2f5962e8887a372536191addf61884e1652516c4a6f3dcb2683324d31ef17cbb1eee61e98f7755aa6cca38d4aeb32b776abf0878f27b486539f284bed30f9a7a",
+      "iso_checksum_type": "sha512",
+
+      "http_directory": "http",
+      "communicator": "ssh",
+      "ssh_username": "root",
+      "ssh_password": "{{user `root_password`}}",
+      "ssh_wait_timeout": "3m",
+      "shutdown_command": "/sbin/poweroff",
+
+      "boot_wait": "1m",
+      "boot_command": [
+        "root<enter><wait>",
+        "ifconfig eth0 up && udhcpc -i eth0<enter>",
+
+        "wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/alpine/answers.env<enter>",
+        "sed -i answers.env -e 's/%DISK_MODE%/data/' -e 's|%ROOT_DEVICE%|/dev/sda|' -e 's/%ALPINE_VERSION%/{{user `alpine_version`}}/'<enter>",
+
+        "setup-alpine -f answers.env << EOF<enter>{{user `root_password`}}<enter>{{user `root_password`}}<enter>y<enter>EOF<enter>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+        "<wait10><wait10><wait10><wait10><wait10><wait10>",
+
+        "echo 'PermitRootLogin yes' > /etc/ssh/sshd_config<enter>",
+
+        "mkdir -p /media/var<enter>",
+        "mount --bind /var /media/var<enter>",
+        "setup-lbu -q var<enter>",
+        "lbu commit<enter>",
+
+        "sync<enter>",
+        "reboot<enter>"
+      ]
+    },
+    {
+      "type": "qemu",
+      "vm_name": "bastion",
+      "headless": "{{user `headless`}}",
+
+      "accelerator": "kvm",
+      "net_device": "virtio-net",
+      "disk_interface": "virtio-scsi",
+      "disk_size": "{{user `disk_size`}}",
+      "qemuargs": [
+        ["-smp", "cores={{user `cpus`}}"],
+        ["-m", "{{user `memory`}}"],
+        ["-balloon", "virtio"]
+      ],
+      "format": "qcow2",
+
+      "iso_urls": ["https://nl.alpinelinux.org/alpine/latest-stable/releases/x86_64/alpine-virt-{{user `alpine_version`}}.0-x86_64.iso"],
+      "iso_checksum": "2f5962e8887a372536191addf61884e1652516c4a6f3dcb2683324d31ef17cbb1eee61e98f7755aa6cca38d4aeb32b776abf0878f27b486539f284bed30f9a7a",
+      "iso_checksum_type": "sha512",
+
+      "http_directory": "http",
+      "communicator": "ssh",
+      "ssh_username": "root",
+      "ssh_password": "{{user `root_password`}}",
+      "ssh_wait_timeout": "3m",
+      "shutdown_command": "/sbin/poweroff",
+
+      "boot_wait": "1m",
+      "boot_command": [
+        "root<enter><wait>",
+        "ifconfig eth0 up && udhcpc -i eth0<enter>",
+        "setup-apkrepos http://dl-cdn.alpinelinux.org/alpine/latest-stable/main<enter>",
+
+        "wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/alpine/answers.env<enter><wait>",
+        "sed -i answers.env -e 's/%DISK_MODE%/sys/' -e 's|%ROOT_DEVICE%|/dev/sda|' -e 's/%ALPINE_VERSION%/{{user `alpine_version`}}/'<enter>",
+
+        "setup-alpine -f answers.env << EOF<enter>{{user `root_password`}}<enter>{{user `root_password`}}<enter>y<enter>EOF<enter>",
+        "<wait2m>",
+
+        "mount /dev/sda3 /mnt<enter>",
+        "echo 'PermitRootLogin yes' > /mnt/etc/ssh/sshd_config<enter>",
+        "umount /dev/sda3<enter>",
+
+        "sync<enter>",
+        "reboot<enter>"
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "config/alpine/sshd_config",
+      "destination": "/etc/ssh/sshd_config"
+    },
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/alpine/00base.sh",
+        "scripts/alpine/01alpine.sh",
+        "scripts/alpine/01networking.sh",
+        "scripts/alpine/02iptables.sh",
+        "scripts/alpine/02sshd.sh",
+        "scripts/alpine/02logrotate.sh",
+        "scripts/alpine/03user-admin.sh",
+        "scripts/alpine/03user-jump.sh",
+        "scripts/alpine/04sudoers.sh",
+        "scripts/alpine/04misc.sh",
+        "scripts/alpine/98lbu.sh",
+        "scripts/alpine/99finalize.sh"
+      ],
+      "environment_vars":[
+        "ALPINE_VERSION={{user `alpine_version`}}",
+        "SSHD_PORT={{user `sshd_port`}}",
+        "JUMP_USER={{user `jump_user`}}",
+        "ADMIN_PASSWORD={{user `admin_password`}}"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "config/alpine/authorized_keys-admin",
+      "destination": "/home/admin/.ssh/authorized_keys"
+    },
+    {
+      "type": "file",
+      "source": "config/alpine/authorized_keys-jump",
+      "destination": "/var/lib/{{user `jump_user`}}/.ssh/authorized_keys"
+    },
+    {
+      "type": "file",
+      "source": "config/alpine/ssh_config-jump",
+      "destination": "/var/lib/{{user `jump_user`}}/.ssh/config"
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "atlas",
+      "only": ["virtualbox-iso"],
+      "token": "{{user `atlas_token`}}",
+      "artifact": "{{user `atlas_user`}}/{{user `image_name`}}",
+      "artifact_type": "virtualbox.image",
+      "metadata": {
+        "provider": "virtualbox",
+        "description": "[Alpine Linux](http://alpinelinux.org) based secure SSH bastion",
+        "version": "{{user `image_version`}}"
+      }
+    },
+    {
+      "type": "atlas",
+      "only": ["qemu"],
+      "token": "{{user `atlas_token`}}",
+      "artifact": "{{user `atlas_user`}}/{{user `image_name`}}",
+      "artifact_type": "qemu.image",
+      "metadata": {
+        "provider": "qemu",
+        "description": "[Alpine Linux](http://alpinelinux.org) based secure SSH bastion",
+        "version": "{{user `image_name`}}"
+      }
+    }
+  ],
+  "push": {
+    "name": "{{user `atlas_user`}}/{{user `image_name`}}",
+    "vcs": true
+  }
+}
