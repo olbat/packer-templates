@@ -15,6 +15,13 @@ $ packer build template.json
 ```
 
 
+## Pre-built images
+- alpine-ssh-bastion ([atlas](https://atlas.hashicorp.com/olbat/artifacts/alpine-ssh-bastion))
+
+__Important__: in order to make this images testable, the default SSH credentials are [versioned](identity) in this repository.  
+_Always_ rebuild the images with your SSH credentials (see [config/](config/)) before using them in a production environment.
+
+
 ## Configuration
 You can configure each template to match your requirements by setting the following [user variables](https://www.packer.io/docs/templates/user-variables.html).
 
