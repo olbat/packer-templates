@@ -1,2 +1,43 @@
-# packer-templates
-Misc Packer templates
+# packer-templates [![Build Status](https://secure.travis-ci.org/olbat/packer-templates.png?branch=master)](https://travis-ci.org/olbat/packer-templates)
+
+A collection of [Packer](https://packer.io/) templates
+
+
+## Usage
+Build and push every images
+```bash
+$ make
+```
+
+Build and push a specific image
+```bash
+$ packer build template.json
+```
+
+
+## Configuration
+You can configure each template to match your requirements by setting the following [user variables](https://www.packer.io/docs/templates/user-variables.html).
+
+ User Variable   | Default Value | Description
+-----------------|---------------|-------------------------------------------
+ `headless`      | true          | Build without running the hypervisor's GUI
+ `disk_size`     | 10240         | Hard disk size (in MB)
+ `memory`        | 512           | Memory size (in MB)
+ `cpus`          | 1             | The number of CPU cores
+ `image_name`    | N/A           | The name of the image that will be built/pushed
+ `image_version` | N/A           | The version of the image that will be built/pushed
+ `atlas_user`    | olbat         | [Atlas](https://atlas.hashicorp.com) username
+ `atlas_token`   | $ATLAS_TOKEN  | [Atlas](https://atlas.hashicorp.com) credentials
+
+_Note_: there may be other user variables depending on the template
+
+
+__Example__:
+```bash
+packer build --var headless=false template.json
+```
+
+## Credits
+Thanks to [kaorimatz](https://github.com/kaorimatz/packer-templates) and
+[maier](https://github.com/maier/packer-templates) for their awesome work that
+made bootstraping this repository/templates a lot easier.
