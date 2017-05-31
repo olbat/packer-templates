@@ -24,18 +24,18 @@ You can configure each template to match your requirements by setting the follow
  `disk_size`     | 10240         | Hard disk size (in MB)
  `memory`        | 512           | Memory size (in MB)
  `cpus`          | 1             | The number of CPU cores
- `image_name`    | N/A           | The name of the image that will be built/pushed
- `image_version` | N/A           | The version of the image that will be built/pushed
+ `image_name`    | n/a           | The name of the image that will be built/pushed
+ `image_version` | n/a           | The version of the image that will be built/pushed
  `atlas_user`    | olbat         | [Atlas](https://atlas.hashicorp.com) username
  `atlas_token`   | $ATLAS_TOKEN  | [Atlas](https://atlas.hashicorp.com) credentials
 
-_Note_: there may be other user variables depending on the template
-
+__Note__: there may be other user variables depending on the template
 
 __Example__:
 ```bash
 packer build --var headless=false template.json
 ```
+
 
 ## Credits
 Thanks to [kaorimatz](https://github.com/kaorimatz/packer-templates) and
