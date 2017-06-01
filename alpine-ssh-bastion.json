@@ -124,6 +124,25 @@
     },
     {
       "type": "shell",
+      "inline": "mkdir -p /home/admin/.ssh /home/{{user `jump_user`}}/.ssh"
+    },
+    {
+      "type": "file",
+      "source": "config/alpine/authorized_keys-admin",
+      "destination": "/home/admin/.ssh/authorized_keys"
+    },
+    {
+      "type": "file",
+      "source": "config/alpine/authorized_keys-jump",
+      "destination": "/home/{{user `jump_user`}}/.ssh/authorized_keys"
+    },
+    {
+      "type": "file",
+      "source": "config/alpine/ssh_config-jump",
+      "destination": "/home/{{user `jump_user`}}/.ssh/config"
+    },
+    {
+      "type": "shell",
       "scripts": [
         "scripts/alpine/00base.sh",
         "scripts/alpine/01alpine.sh",
@@ -144,21 +163,6 @@
         "JUMP_USER={{user `jump_user`}}",
         "ADMIN_PASSWORD={{user `admin_password`}}"
       ]
-    },
-    {
-      "type": "file",
-      "source": "config/alpine/authorized_keys-admin",
-      "destination": "/home/admin/.ssh/authorized_keys"
-    },
-    {
-      "type": "file",
-      "source": "config/alpine/authorized_keys-jump",
-      "destination": "/var/lib/{{user `jump_user`}}/.ssh/authorized_keys"
-    },
-    {
-      "type": "file",
-      "source": "config/alpine/ssh_config-jump",
-      "destination": "/var/lib/{{user `jump_user`}}/.ssh/config"
     }
   ],
   "post-processors": [
