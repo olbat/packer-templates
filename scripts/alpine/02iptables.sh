@@ -29,6 +29,7 @@ iptables -A LOGDROP -j LOG
 iptables -A LOGDROP -j DROP
 
 # Flood protection
+# (see https://www.cyberciti.biz/tips/linux-unix-bsd-openssh-server-best-practices.html)
 iptables -A INPUT -i $IFACE -p tcp --dport $SSHD_PORT \
 	-m state --state NEW -m recent --set
 iptables -A INPUT -i $IFACE -p tcp --dport $SSHD_PORT \

@@ -2,10 +2,13 @@
 
 set -exu
 
-adduser -D admin
+adduser -D -H -h /home/admin admin
 echo "admin:${ADMIN_PASSWORD:-nimda}" | chpasswd
-mkdir -pm 700 /home/admin/.ssh
-chown -R admin:admin /home/admin/.ssh
-chmod -R go-rwsx /home/admin/.ssh
 
-lbu add /home/admin
+mkdir -p ~admin/.ssh
+chmod 700 ~admin/.ssh
+chmod -R go-rwsx ~admin/.ssh
+
+chown -R admin:admin ~admin
+
+lbu add ~admin
