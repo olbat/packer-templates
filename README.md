@@ -18,7 +18,7 @@ $ packer build template.json
 ## Pre-built images
 - alpine-ssh-bastion ([atlas](https://atlas.hashicorp.com/olbat/artifacts/alpine-ssh-bastion))
 
-__Important__: in order to make this images testable, the default SSH credentials are [versioned](identity) in this repository.  
+__Important__: in order to make this images testable, the default SSH credentials are [versioned](credentials/) in this repository.  
 _Always_ rebuild the images with your SSH credentials (see [config/](config/)) before using them in a production environment.
 
 
