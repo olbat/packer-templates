@@ -98,7 +98,6 @@
       "boot_command": [
         "root<enter><wait>",
         "ifconfig eth0 up && udhcpc -i eth0<enter>",
-        "setup-apkrepos http://dl-cdn.alpinelinux.org/alpine/latest-stable/main<enter>",
 
         "wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/alpine/answers.env<enter><wait>",
         "sed -i answers.env -e 's/%DISK_MODE%/sys/' -e 's|%ROOT_DEVICE%|/dev/sda|' -e 's/%ALPINE_VERSION%/{{user `alpine_version`}}/'<enter>",
