@@ -28,18 +28,23 @@ You can configure each template to match your requirements by setting the follow
  `image_version` | n/a           | The version of the image that will be built/pushed
  `atlas_user`    | olbat         | [Atlas](https://atlas.hashicorp.com) username
  `atlas_token`   | $ATLAS_TOKEN  | [Atlas](https://atlas.hashicorp.com) credentials
-
-Example: `packer build --var headless=false template.json`
+ `bintray_user`  | olbat         | [Bintray](https://bintray.com) username
+ `bintray_api_key` | $BINTRAY_API_KEY | [Bintray](https://bintray.com) credentials
 
 __Note__: there may be other user variables depending on the template
 
+Example: `packer build --var headless=false template.json`
 
 
 ## Pre-built images
-- [alpine-ssh-bastion](https://atlas.hashicorp.com/olbat/artifacts/alpine-ssh-bastion)
----
 __Important__: in order to make this images testable, the default SSH credentials are [versioned](credentials/) in this repository.  
 _Always_ rebuild the images with your SSH credentials (see [config/](config/)) before using them in a production environment.
+
+### QEMU
+- alpine-ssh-bastion ([atlas](https://atlas.hashicorp.com/olbat/artifacts/alpine-ssh-bastion/types/qemu.image), [bintray](https://bintray.com/olbat/qemu/alpine-ssh-bastion))
+
+### VirtualBox
+- alpine-ssh-bastion ([atlas](https://atlas.hashicorp.com/olbat/artifacts/alpine-ssh-bastion/types/virtualbox.image), [bintray](https://bintray.com/olbat/virtualbox/alpine-ssh-bastion))
 
 
 ## Credits
