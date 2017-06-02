@@ -11,6 +11,10 @@
 
     "atlas_user": "olbat",
     "atlas_token": "{{env `ATLAS_TOKEN`}}",
+    "bintray_user": "olbat",
+    "bintray_api_key": "{{env `BINTRAY_API_KEY`}}",
+    "bintray_qemu_repository": "qemu",
+    "bintray_virtualbox_repository": "virtualbox",
 
     "alpine_version": "3.6",
 
@@ -22,7 +26,7 @@
   "builders": [
     {
       "type": "virtualbox-iso",
-      "vm_name": "bastion",
+      "vm_name": "{{user `image_name`}}",
       "headless": "{{user `headless`}}",
 
       "guest_os_type": "Linux26_64",
@@ -69,7 +73,7 @@
     },
     {
       "type": "qemu",
-      "vm_name": "bastion",
+      "vm_name": "{{user `image_name`}}",
       "headless": "{{user `headless`}}",
 
       "accelerator": "kvm",
@@ -187,6 +191,23 @@
         "description": "[Alpine Linux](http://alpinelinux.org) based secure SSH bastion",
         "version": "{{user `image_name`}}"
       }
+    },
+    {
+      "type": "shell-local",
+      "only": ["qemu"],
+      "inline": [
+        "curl -T output-$PACKER_BUILDER_TYPE/{{user `image_name`}} -u{{user `bintray_user`}}:{{user `bintray_api_key`}} https://api.bintray.com/content/{{user `bintray_user`}}/{{user `bintray_qemu_repository`}}/{{user `image_name`}}/{{user `image_version`}}/{{user `image_name`}}-{{user `image_version`}}.qcow2?override=1",
+        "curl -XPOST -u{{user `bintray_user`}}:{{user `bintray_api_key`}} https://api.bintray.com/content/{{user `bintray_user`}}/{{user `bintray_qemu_repository`}}/{{user `image_name`}}/{{user `image_version`}}/publish"
+      ]
+    },
+    {
+      "type": "shell-local",
+      "only": ["virtualbox-iso"],
+      "inline": [
+        "curl -T output-$PACKER_BUILDER_TYPE/{{user `image_name`}}-disk1.vmdk -u{{user `bintray_user`}}:{{user `bintray_api_key`}} https://api.bintray.com/content/{{user `bintray_user`}}/{{user `bintray_virtualbox_repository`}}/{{user `image_name`}}/{{user `image_version`}}/{{user `image_name`}}-{{user `image_version`}}-disk1.vmdk?override=1",
+        "curl -T output-$PACKER_BUILDER_TYPE/{{user `image_name`}}.ovf -u{{user `bintray_user`}}:{{user `bintray_api_key`}} https://api.bintray.com/content/{{user `bintray_user`}}/{{user `bintray_virtualbox_repository`}}/{{user `image_name`}}/{{user `image_version`}}/{{user `image_name`}}-{{user `image_version`}}.ovf?override=1",
+        "curl -XPOST -u{{user `bintray_user`}}:{{user `bintray_api_key`}} https://api.bintray.com/content/{{user `bintray_user`}}/{{user `bintray_virtualbox_repository`}}/{{user `image_name`}}/{{user `image_version`}}/publish"
+      ]
     }
   ],
   "push": {
