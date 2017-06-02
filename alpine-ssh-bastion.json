@@ -55,7 +55,6 @@
 
         "setup-alpine -f answers.env << EOF<enter>{{user `root_password`}}<enter>{{user `root_password`}}<enter>y<enter>EOF<enter>",
         "<wait10><wait10><wait10><wait10><wait10><wait10>",
-        "<wait10><wait10><wait10><wait10><wait10><wait10>",
 
         "echo 'PermitRootLogin yes' > /etc/ssh/sshd_config<enter>",
 
@@ -105,7 +104,7 @@
         "sed -i answers.env -e 's/%DISK_MODE%/sys/' -e 's|%ROOT_DEVICE%|/dev/sda|' -e 's/%ALPINE_VERSION%/{{user `alpine_version`}}/'<enter>",
 
         "setup-alpine -f answers.env << EOF<enter>{{user `root_password`}}<enter>{{user `root_password`}}<enter>y<enter>EOF<enter>",
-        "<wait2m>",
+        "<wait1m>",
 
         "mount /dev/sda3 /mnt<enter>",
         "echo 'PermitRootLogin yes' > /mnt/etc/ssh/sshd_config<enter>",
