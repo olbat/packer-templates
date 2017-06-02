@@ -169,6 +169,13 @@
   ],
   "post-processors": [
     {
+      "type": "compress",
+      "only": ["qemu"],
+      "format": "gzip",
+      "output": "output-{{.BuilderType}}/{{user `image_name`}}.gz",
+      "keep_input_artifact": true
+    },
+    {
       "type": "atlas",
       "only": ["virtualbox-iso"],
       "token": "{{user `atlas_token`}}",
@@ -196,7 +203,7 @@
       "type": "shell-local",
       "only": ["qemu"],
       "inline": [
-        "curl -T output-$PACKER_BUILDER_TYPE/{{user `image_name`}} -u{{user `bintray_user`}}:{{user `bintray_api_key`}} https://api.bintray.com/content/{{user `bintray_user`}}/{{user `bintray_qemu_repository`}}/{{user `image_name`}}/{{user `image_version`}}/{{user `image_name`}}-{{user `image_version`}}.qcow2?override=1",
+        "curl -T output-$PACKER_BUILDER_TYPE/{{user `image_name`}}.gz -u{{user `bintray_user`}}:{{user `bintray_api_key`}} https://api.bintray.com/content/{{user `bintray_user`}}/{{user `bintray_qemu_repository`}}/{{user `image_name`}}/{{user `image_version`}}/{{user `image_name`}}-{{user `image_version`}}.qcow2.gz?override=1",
         "curl -XPOST -u{{user `bintray_user`}}:{{user `bintray_api_key`}} https://api.bintray.com/content/{{user `bintray_user`}}/{{user `bintray_qemu_repository`}}/{{user `image_name`}}/{{user `image_version`}}/publish"
       ]
     },
