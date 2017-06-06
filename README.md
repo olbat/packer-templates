@@ -37,6 +37,7 @@ Example: `packer build --var headless=false template.json`
 
 
 ## Pre-built images
+- [alpine-ssh-bastion](alpine-ssh-bastion.md#pre-built-images)
 - [alpine-ssh-bastion_datamode](alpine-ssh-bastion_datamode.md#pre-built-images)
 
 __Important__: in order to make this images testable, the default SSH credentials are [versioned](credentials/) in this repository.  
