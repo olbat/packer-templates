@@ -86,7 +86,8 @@
       "qemuargs": [
         ["-smp", "cores={{user `cpus`}}"],
         ["-m", "{{user `memory`}}"],
-        ["-balloon", "virtio"]
+        ["-balloon", "virtio"],
+        ["-boot", "order=d"]
       ],
       "format": "qcow2",
 
@@ -107,14 +108,20 @@
         "ifconfig eth0 up && udhcpc -i eth0<enter>",
 
         "wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/alpine/answers.env<enter><wait>",
-        "sed -i answers.env -e 's/%DISK_MODE%/sys/' -e 's|%ROOT_DEVICE%|/dev/sda|' -e 's/%ALPINE_VERSION%/{{user `alpine_version`}}/'<enter>",
+        "sed -i answers.env -e 's/%DISK_MODE%/data/' -e 's|%ROOT_DEVICE%|/dev/sda|' -e 's/%ALPINE_VERSION%/{{user `alpine_version`}}/'<enter>",
 
         "setup-alpine -f answers.env << EOF<enter>{{user `root_password`}}<enter>{{user `root_password`}}<enter>y<enter>EOF<enter>",
         "<wait1m>",
 
-        "mount /dev/sda3 /mnt<enter>",
-        "echo 'PermitRootLogin yes' > /mnt/etc/ssh/sshd_config<enter>",
-        "umount /dev/sda3<enter>",
+        "echo 'PermitRootLogin yes' > /etc/ssh/sshd_config<enter>",
+
+        "mkdir -p /media/sda2<enter>",
+        "mount --bind /var /media/sda2<enter>",
+        "sed -i /etc/fstab -e '/^\\/dev\\/sda2/d'<enter>",
+        "setup-lbu -q sda2<enter>",
+        "setup-apkcache /media/sda2/cache/apk<enter>",
+        "echo '/media/sda2 /var none defaults,bind 0 0' >> /etc/fstab<enter>",
+        "lbu commit<enter>",
 
         "sync<enter>",
         "reboot<enter>"
