@@ -18,8 +18,8 @@
 
     "alpine_version": "3.6",
 
-    "jump_user": "jump",
     "sshd_port": "1234",
+    "jump_user": "jump",
     "root_password": "I'm too lazy to change the root password :(",
     "admin_password": "I'm too lazy to change the admin password :("
   },
@@ -62,9 +62,12 @@
 
         "echo 'PermitRootLogin yes' > /etc/ssh/sshd_config<enter>",
 
-        "mkdir -p /media/var<enter>",
-        "mount --bind /var /media/var<enter>",
-        "setup-lbu -q var<enter>",
+        "mkdir -p /media/sda2<enter>",
+        "mount --bind /var /media/sda2<enter>",
+        "sed -i /etc/fstab -e '/^\\/dev\\/sda2/d'<enter>",
+        "setup-lbu -q sda2<enter>",
+        "setup-apkcache /media/sda2/cache/apk<enter>",
+        "echo '/media/sda2 /var none defaults,bind 0 0' >> /etc/fstab<enter>",
         "lbu commit<enter>",
 
         "sync<enter>",
