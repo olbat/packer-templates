@@ -1,7 +1,7 @@
 {
   "description": "Alpine Linux based secure SSH bastion",
   "variables": {
-    "image_name": "alpine-ssh-bastion",
+    "image_name": "alpine-ssh-bastion_datamode",
     "image_version": "0.1.0",
 
     "headless": "true",
@@ -87,7 +87,7 @@
         ["-smp", "cores={{user `cpus`}}"],
         ["-m", "{{user `memory`}}"],
         ["-balloon", "virtio"],
-        ["-boot", "order=d"]
+        ["-boot", "d"]
       ],
       "format": "qcow2",
 
