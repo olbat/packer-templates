@@ -181,7 +181,6 @@
     {
       "type": "compress",
       "only": ["qemu"],
-      "format": "gzip",
       "output": "output-{{.BuilderType}}/{{user `image_name`}}.gz",
       "keep_input_artifact": true
     },

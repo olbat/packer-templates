@@ -27,7 +27,7 @@ $ qemu-system-x86_64 \
     -m 512 -balloon virtio \
     -device virtio-net,netdev=user0 -netdev user,id=user0 \
     -device virtio-scsi-pci,id=scsi0 -device scsi-hd,bus=scsi0.0,drive=drive0 \
-    -drive if=none,file=alpine-ssh-bastion_datamode,id=drive0 \
+    -drive if=none,id=drive0,file=alpine-ssh-bastion_datamode.qcow2 \
     -boot d -cdrom alpine-virt-VERSION-x86_64.iso
 ```
 
