@@ -14,6 +14,24 @@ In addition to an SSH server, this image also contains the following services:
 By default, there is only 2 users: an admin user that can open interactive sessions and install packages and a jump user that can only use the SSH service as a proxy (no interactive sessions allowed).
 
 
+## Usage
+### QEMU
+```bash
+$ qemu-system-x86_64 \
+    -enable-kvm -smp cores=1 \
+    -m 512 -balloon virtio \
+    -device virtio-net,netdev=user0 -netdev user,id=user0 \
+    -device virtio-scsi-pci,id=scsi0 -device scsi-hd,bus=scsi0.0,drive=drive0 \
+    -drive if=none,file=alpine-ssh-bastion,id=drive0
+```
+
+### VirtualBox
+```bash
+$ VBoxManage import alpine-ssh-bastion.ovf
+$ VBoxManage startvm alpine-ssh-bastion
+```
+
+
 ## Build configuration
 You can configure each template to match your requirements by setting the following [user variables](https://www.packer.io/docs/templates/user-variables.html).
 

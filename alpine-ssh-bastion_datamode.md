@@ -19,6 +19,28 @@ The images are configured using [LBU](https://wiki.alpinelinux.org/wiki/Alpine_l
 __Note__: for the `QEMU` image you'll have to precise the `-boot d` option to be sure the VM boots from the CDROM.
 
 
+## Usage
+### QEMU
+```bash
+$ qemu-system-x86_64 \
+    -enable-kvm -smp cores=1 \
+    -m 512 -balloon virtio \
+    -device virtio-net,netdev=user0 -netdev user,id=user0 \
+    -device virtio-scsi-pci,id=scsi0 -device scsi-hd,bus=scsi0.0,drive=drive0 \
+    -drive if=none,file=alpine-ssh-bastion_datamode,id=drive0 \
+    -boot d -cdrom alpine-virt-VERSION-x86_64.iso
+```
+
+### VirtualBox
+```bash
+$ VBoxManage import alpine-ssh-bastion_datamode.ovf
+$ VBoxManage storageattach alpine-ssh-bastion_datamode \
+    --storagectl "IDE controller" --port 0 --device 0 --type dvddrive \
+    --medium alpine-virt-VERSION-x86_64.iso
+$ VBoxManage startvm alpine-ssh-bastion_datamode
+```
+
+
 ## Build configuration
 You can configure each template to match your requirements by setting the following [user variables](https://www.packer.io/docs/templates/user-variables.html).
 
