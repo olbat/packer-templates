@@ -1,10 +1,15 @@
 TEMPLATES=$(shell git ls-files './*.json')
 
 all: distclean
-	echo ${TEMPLATES} | xargs packer build --parallel=false
+	for template in $(TEMPLATES) ; \
+	do \
+		packer build --parallel=false $$template \
+		&& $(MAKE) distclean \
+		|| exit 1 ; \
+	done
 
 test:
-	echo ${TEMPLATES} | xargs packer validate
+	echo ${TEMPLATES} | xargs -n1 packer validate
 
 clean:
 	rm -rf packer_cache
