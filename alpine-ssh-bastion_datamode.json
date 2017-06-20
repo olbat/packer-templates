@@ -61,7 +61,7 @@
 
         "wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/alpine/answers.env<enter>",
 
-        "sed -i answers.env -e 's/%DISK_MODE%/sys/' -e 's|%ROOT_DEVICE%|/dev/sda|'<enter>",
+        "sed -i answers.env -e 's/%DISK_MODE%/data/' -e 's|%ROOT_DEVICE%|/dev/sda|'<enter>",
 
         "sed -i answers.env -e 's/%ALPINE_VERSION%/{{user `alpine_version`}}/'<enter>",
         "sed -i answers.env -e 's/%HOSTNAME%/{{user `hostname`}}/'<enter>",
@@ -121,7 +121,7 @@
         "ifconfig eth0 up && udhcpc -i eth0<enter>",
 
         "wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/alpine/answers.env<enter><wait>",
-        "sed -i answers.env -e 's/%DISK_MODE%/sys/' -e 's|%ROOT_DEVICE%|/dev/sda|'<enter>",
+        "sed -i answers.env -e 's/%DISK_MODE%/data/' -e 's|%ROOT_DEVICE%|/dev/sda|'<enter>",
 
         "sed -i answers.env -e 's/%ALPINE_VERSION%/{{user `alpine_version`}}/'<enter>",
         "sed -i answers.env -e 's/%HOSTNAME%/{{user `hostname`}}/'<enter>",
