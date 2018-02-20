@@ -2,7 +2,7 @@
   "description": "Alpine Linux based secure SSH bastion",
   "variables": {
     "image_name": "alpine-ssh-bastion",
-    "image_version": "0.2.0",
+    "image_version": "0.2.1",
 
     "headless": "true",
     "disk_size": "10240",
@@ -16,7 +16,7 @@
     "bintray_qemu_repository": "qemu",
     "bintray_virtualbox_repository": "virtualbox",
 
-    "alpine_version": "3.6",
+    "alpine_version": "3.7",
     "hostname": "bastion",
     "keymap": "us us",
     "timezone": "UTC",
@@ -29,7 +29,7 @@
     "admin_password": "I'm too lazy to change the admin password :(",
 
     "iso_mirror": "https://nl.alpinelinux.org/alpine/",
-    "iso_checksum": "2f5962e8887a372536191addf61884e1652516c4a6f3dcb2683324d31ef17cbb1eee61e98f7755aa6cca38d4aeb32b776abf0878f27b486539f284bed30f9a7a",
+    "iso_checksum": "0c15bf672ab87ed5b54b629936acb0af03600fcf473c870566fff62a2f271ae565435cd38061cc825f8ba21a339f923289a4e2b13f5d7f564e1274c2b11bd11d",
     "iso_checksum_type": "sha512"
   },
   "builders": [
@@ -74,7 +74,7 @@
         "sed -i answers.env -e 's/%NAME_SERVERS%/{{user `name_servers`}}/'<enter>",
         "sed -i answers.env -e 's/%HTTP_PROXY%/{{user `http_proxy`}}/'<enter>",
 
-        "setup-alpine -f answers.env << EOF<enter>{{user `root_password`}}<enter>{{user `root_password`}}<enter>y<enter>EOF<enter>",
+        "setup-alpine -f ./answers.env << EOF<enter>{{user `root_password`}}<enter>{{user `root_password`}}<enter>y<enter>EOF<enter>",
         "<wait10><wait10><wait10><wait10><wait10><wait10>",
 
         "mount /dev/sda3 /mnt<enter>",
@@ -128,7 +128,7 @@
         "sed -i answers.env -e 's/%HTTP_PROXY%/{{user `http_proxy`}}/'<enter>",
         "cat answers.env<enter>",
 
-        "setup-alpine -f answers.env << EOF<enter>{{user `root_password`}}<enter>{{user `root_password`}}<enter>y<enter>EOF<enter>",
+        "setup-alpine -f ./answers.env << EOF<enter>{{user `root_password`}}<enter>{{user `root_password`}}<enter>y<enter>EOF<enter>",
         "<wait1m>",
 
         "mount /dev/sda3 /mnt<enter>",
@@ -232,7 +232,7 @@
       "type": "shell-local",
       "only": ["virtualbox-iso"],
       "inline": [
-        "curl -T output-$PACKER_BUILDER_TYPE/{{user `image_name`}}-disk1.vmdk -u{{user `bintray_user`}}:{{user `bintray_api_key`}} https://api.bintray.com/content/{{user `bintray_user`}}/{{user `bintray_virtualbox_repository`}}/{{user `image_name`}}/{{user `image_version`}}/{{user `image_name`}}-{{user `image_version`}}-disk1.vmdk?override=1",
+        "curl -T output-$PACKER_BUILDER_TYPE/{{user `image_name`}}-disk001.vmdk -u{{user `bintray_user`}}:{{user `bintray_api_key`}} https://api.bintray.com/content/{{user `bintray_user`}}/{{user `bintray_virtualbox_repository`}}/{{user `image_name`}}/{{user `image_version`}}/{{user `image_name`}}-{{user `image_version`}}-disk001.vmdk?override=1",
         "curl -T output-$PACKER_BUILDER_TYPE/{{user `image_name`}}.ovf -u{{user `bintray_user`}}:{{user `bintray_api_key`}} https://api.bintray.com/content/{{user `bintray_user`}}/{{user `bintray_virtualbox_repository`}}/{{user `image_name`}}/{{user `image_version`}}/{{user `image_name`}}-{{user `image_version`}}.ovf?override=1",
         "curl -XPOST -u{{user `bintray_user`}}:{{user `bintray_api_key`}} https://api.bintray.com/content/{{user `bintray_user`}}/{{user `bintray_virtualbox_repository`}}/{{user `image_name`}}/{{user `image_version`}}/publish"
       ]
