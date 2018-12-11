@@ -9,8 +9,6 @@
     "memory": "512",
     "cpus": "1",
 
-    "atlas_user": "olbat",
-    "atlas_token": "{{env `ATLAS_TOKEN`}}",
     "bintray_user": "olbat",
     "bintray_api_key": "{{env `BINTRAY_API_KEY`}}",
     "bintray_qemu_repository": "qemu",
@@ -197,30 +195,6 @@
       "keep_input_artifact": true
     },
     {
-      "type": "atlas",
-      "only": ["virtualbox-iso"],
-      "token": "{{user `atlas_token`}}",
-      "artifact": "{{user `atlas_user`}}/{{user `image_name`}}",
-      "artifact_type": "virtualbox.image",
-      "metadata": {
-        "provider": "virtualbox",
-        "description": "[Alpine Linux](http://alpinelinux.org) based secure SSH bastion",
-        "version": "{{user `image_version`}}"
-      }
-    },
-    {
-      "type": "atlas",
-      "only": ["qemu"],
-      "token": "{{user `atlas_token`}}",
-      "artifact": "{{user `atlas_user`}}/{{user `image_name`}}",
-      "artifact_type": "qemu.image",
-      "metadata": {
-        "provider": "qemu",
-        "description": "[Alpine Linux](http://alpinelinux.org) based secure SSH bastion",
-        "version": "{{user `image_name`}}"
-      }
-    },
-    {
       "type": "shell-local",
       "only": ["qemu"],
       "inline": [
@@ -237,9 +211,5 @@
         "curl -XPOST -u{{user `bintray_user`}}:{{user `bintray_api_key`}} https://api.bintray.com/content/{{user `bintray_user`}}/{{user `bintray_virtualbox_repository`}}/{{user `image_name`}}/{{user `image_version`}}/publish"
       ]
     }
-  ],
-  "push": {
-    "name": "{{user `atlas_user`}}/{{user `image_name`}}",
-    "vcs": true
-  }
+  ]
 }

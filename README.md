@@ -26,8 +26,6 @@ You can configure each template to match your requirements by setting the follow
  `cpus`          | 1             | The number of CPU cores
  `image_name`    | n/a           | The name of the image that will be built/pushed
  `image_version` | n/a           | The version of the image that will be built/pushed
- `atlas_user`    | olbat         | [Atlas](https://atlas.hashicorp.com) username
- `atlas_token`   | $ATLAS_TOKEN  | [Atlas](https://atlas.hashicorp.com) credentials
  `bintray_user`  | olbat         | [Bintray](https://bintray.com) username
  `bintray_api_key` | $BINTRAY_API_KEY | [Bintray](https://bintray.com) credentials
 
