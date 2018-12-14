@@ -18,7 +18,7 @@
     "hostname": "bastion",
     "keymap": "us us",
     "timezone": "UTC",
-    "name_servers":"8.8.8.8 8.8.4.4",
+    "name_servers":"1.1.1.1 8.8.8.8",
     "http_proxy": "none",
 
     "sshd_port": "1234",

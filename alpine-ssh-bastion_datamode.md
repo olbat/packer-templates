@@ -50,7 +50,7 @@ You can configure each template to match your requirements by setting the follow
  `hostname`       | bastion       | The machine's hostname (see [setup-hostname](https://wiki.alpinelinux.org/wiki/Alpine_setup_scripts))
  `keymap`         | us us         | The machine's keyboard mapping (see [setup-keymap](https://wiki.alpinelinux.org/wiki/Alpine_setup_scripts))
  `timezone`       | UTC           | The machine's timezone (see [setup-timezone](https://wiki.alpinelinux.org/wiki/Alpine_setup_scripts))
- `name_servers`   | 8.8.8.8 8.8.4.4 | The machine's name servers (see [setup-dns](https://wiki.alpinelinux.org/wiki/Alpine_setup_scripts))
+ `name_servers`   | 1.1.1.1 8.8.8.8 | The machine's name servers (see [setup-dns](https://wiki.alpinelinux.org/wiki/Alpine_setup_scripts))
  `http_proxy`     | none          | The machine's HTTP proxy (see [setup-proxy](https://wiki.alpinelinux.org/wiki/Alpine_setup_scripts))
  `sshd_port`      | 1234          | The port the SSH server is listening to
  `jump_user`      | jump          | The user that has to be used to jump
