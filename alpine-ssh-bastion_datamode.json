@@ -14,8 +14,8 @@
     "bintray_qemu_repository": "qemu",
     "bintray_virtualbox_repository": "virtualbox",
 
-    "alpine_version": "3.7.1",
-    "alpine_short_version": "3.7",
+    "alpine_version": "3.8.2",
+    "alpine_short_version": "3.8",
     "hostname": "bastion",
     "keymap": "us us",
     "timezone": "UTC",
@@ -28,7 +28,7 @@
     "admin_password": "I'm too lazy to change the admin password :(",
 
     "iso_mirror": "https://nl.alpinelinux.org/alpine/",
-    "iso_checksum": "876d4e2698a3c4d9a99a9e74f7d894ded63e6244cc5d59ec16c533c57f6a665f9c9a2c09ce91f3d1698e7e3166cab2c1020c9fb73187a3e96d38145117315da4",
+    "iso_checksum": "b4e72692b2a04a1b2384a9c743040fa648afdb050c41e245b79420c511e1a065f43b0c42b9f58726d1852a6145612f9c96f7def539fe8707a1abcb209889c726",
     "iso_checksum_type": "sha512"
   },
   "builders": [
@@ -79,12 +79,12 @@
 
         "echo 'PermitRootLogin yes' > /etc/ssh/sshd_config<enter>",
 
-        "mkdir -p /media/sda2<enter>",
-        "mount --bind /var /media/sda2<enter>",
-        "sed -i /etc/fstab -e '/^\\/dev\\/sda2/d'<enter>",
-        "setup-lbu -q sda2<enter>",
-        "setup-apkcache /media/sda2/cache/apk<enter>",
-        "echo '/media/sda2 /var none defaults,bind 0 0' >> /etc/fstab<enter>",
+        "mkdir -p /media/sda1<enter>",
+        "mount --bind /var /media/sda1<enter>",
+        "sed -i /etc/fstab -e '/^\\/dev\\/sda1/d'<enter>",
+        "setup-lbu -q sda1<enter>",
+        "setup-apkcache /media/sda1/cache/apk<enter>",
+        "echo '/media/sda1 /var none defaults,bind 0 0' >> /etc/fstab<enter>",
         "lbu commit<enter>",
 
         "sync<enter>",
@@ -140,12 +140,12 @@
 
         "echo 'PermitRootLogin yes' > /etc/ssh/sshd_config<enter>",
 
-        "mkdir -p /media/sda2<enter>",
-        "mount --bind /var /media/sda2<enter>",
-        "sed -i /etc/fstab -e '/^\\/dev\\/sda2/d'<enter>",
-        "setup-lbu -q sda2<enter>",
-        "setup-apkcache /media/sda2/cache/apk<enter>",
-        "echo '/media/sda2 /var none defaults,bind 0 0' >> /etc/fstab<enter>",
+        "mkdir -p /media/sda1<enter>",
+        "mount --bind /var /media/sda1<enter>",
+        "sed -i /etc/fstab -e '/^\\/dev\\/sda1/d'<enter>",
+        "setup-lbu -q sda1<enter>",
+        "setup-apkcache /media/sda1/cache/apk<enter>",
+        "echo '/media/sda1 /var none defaults,bind 0 0' >> /etc/fstab<enter>",
         "lbu commit<enter>",
 
         "sync<enter>",

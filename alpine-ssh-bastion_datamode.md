@@ -46,7 +46,7 @@ You can configure each template to match your requirements by setting the follow
 
  User Variable    | Default Value | Description
 ------------------|---------------|-------------------------------------------
- `alpine_version` | 3.6           | The version of Alpine Linux
+ `alpine_version` | 3.8.2         | The version of Alpine Linux
  `hostname`       | bastion       | The machine's hostname (see [setup-hostname](https://wiki.alpinelinux.org/wiki/Alpine_setup_scripts))
  `keymap`         | us us         | The machine's keyboard mapping (see [setup-keymap](https://wiki.alpinelinux.org/wiki/Alpine_setup_scripts))
  `timezone`       | UTC           | The machine's timezone (see [setup-timezone](https://wiki.alpinelinux.org/wiki/Alpine_setup_scripts))
