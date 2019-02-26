@@ -97,7 +97,7 @@
       "qemuargs": [
         ["-smp", "cores={{user `cpus`}}"],
         ["-m", "{{user `memory`}}"],
-        ["-balloon", "virtio"]
+        ["-device", "virtio-balloon"],
       ],
       "format": "qcow2",
 

@@ -103,7 +103,7 @@
       "qemuargs": [
         ["-smp", "cores={{user `cpus`}}"],
         ["-m", "{{user `memory`}}"],
-        ["-balloon", "virtio"],
+        ["-device", "virtio-balloon"],
         ["-boot", "d"]
       ],
       "format": "qcow2",
