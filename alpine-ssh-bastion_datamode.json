@@ -98,7 +98,7 @@
 
       "accelerator": "kvm",
       "net_device": "virtio-net",
-      "disk_interface": "virtio-scsi",
+      "disk_interface": "virtio",
       "disk_size": "{{user `disk_size`}}",
       "qemuargs": [
         ["-smp", "cores={{user `cpus`}}"],
@@ -126,7 +126,7 @@
         "ifconfig eth0 up && udhcpc -i eth0<enter>",
 
         "wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/alpine/answers.env<enter><wait>",
-        "sed -i answers.env -e 's/%DISK_MODE%/data/' -e 's|%ROOT_DEVICE%|/dev/sda|'<enter>",
+        "sed -i answers.env -e 's/%DISK_MODE%/data/' -e 's|%ROOT_DEVICE%|/dev/vda|'<enter>",
 
         "sed -i answers.env -e 's/%ALPINE_VERSION%/{{user `alpine_version`}}/'<enter>",
         "sed -i answers.env -e 's/%ALPINE_SHORT_VERSION%/{{user `alpine_short_version`}}/'<enter>",
@@ -141,12 +141,12 @@
 
         "echo 'PermitRootLogin yes' > /etc/ssh/sshd_config<enter>",
 
-        "mkdir -p /media/sda1<enter>",
-        "mount --bind /var /media/sda1<enter>",
-        "sed -i /etc/fstab -e '/^\\/dev\\/sda1/d'<enter>",
-        "setup-lbu -q sda1<enter>",
-        "setup-apkcache /media/sda1/cache/apk<enter>",
-        "echo '/media/sda1 /var none defaults,bind 0 0' >> /etc/fstab<enter>",
+        "mkdir -p /media/vda1<enter>",
+        "mount --bind /var /media/vda1<enter>",
+        "sed -i /etc/fstab -e '/^\\/dev\\/vda1/d'<enter>",
+        "setup-lbu -q vda1<enter>",
+        "setup-apkcache /media/vda1/cache/apk<enter>",
+        "echo '/media/vda1 /var none defaults,bind 0 0' >> /etc/fstab<enter>",
         "lbu commit<enter>",
 
         "sync<enter>",

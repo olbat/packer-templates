@@ -92,7 +92,7 @@
 
       "accelerator": "kvm",
       "net_device": "virtio-net",
-      "disk_interface": "virtio-scsi",
+      "disk_interface": "virtio",
       "disk_size": "{{user `disk_size`}}",
       "qemuargs": [
         ["-smp", "cores={{user `cpus`}}"],
@@ -119,7 +119,7 @@
         "ifconfig eth0 up && udhcpc -i eth0<enter>",
 
         "wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/alpine/answers.env<enter><wait>",
-        "sed -i answers.env -e 's/%DISK_MODE%/sys/' -e 's|%ROOT_DEVICE%|/dev/sda|'<enter>",
+        "sed -i answers.env -e 's/%DISK_MODE%/sys/' -e 's|%ROOT_DEVICE%|/dev/vda|'<enter>",
 
         "sed -i answers.env -e 's/%ALPINE_VERSION%/{{user `alpine_version`}}/'<enter>",
         "sed -i answers.env -e 's/%ALPINE_SHORT_VERSION%/{{user `alpine_short_version`}}/'<enter>",
@@ -128,14 +128,13 @@
         "sed -i answers.env -e 's/%TIMEZONE%/{{user `timezone`}}/'<enter>",
         "sed -i answers.env -e 's/%NAME_SERVERS%/{{user `name_servers`}}/'<enter>",
         "sed -i answers.env -e 's/%HTTP_PROXY%/{{user `http_proxy`}}/'<enter>",
-        "cat answers.env<enter>",
 
         "setup-alpine -f ./answers.env << EOF<enter>{{user `root_password`}}<enter>{{user `root_password`}}<enter>y<enter>EOF<enter>",
         "<wait1m>",
 
-        "mount /dev/sda2 /mnt<enter>",
+        "mount /dev/vda2 /mnt<enter>",
         "echo 'PermitRootLogin yes' > /mnt/etc/ssh/sshd_config<enter>",
-        "umount /dev/sda2<enter>",
+        "umount /dev/vda2<enter>",
 
         "sync<enter>",
         "reboot<enter>"
