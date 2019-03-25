@@ -104,6 +104,7 @@
         ["-smp", "cores={{user `cpus`}}"],
         ["-m", "{{user `memory`}}"],
         ["-device", "virtio-balloon"],
+        ["-device", "virtio-rng"],
         ["-display", "gtk"],
         ["-boot", "d"]
       ],
