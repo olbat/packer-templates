@@ -115,6 +115,7 @@
       "shutdown_command": "/sbin/poweroff",
 
       "boot_wait": "30s",
+      "boot_key_interval": "20ms",
       "boot_command": [
         "root<enter><wait>",
         "ifconfig eth0 up && udhcpc -i eth0<enter>",
