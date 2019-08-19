@@ -4,7 +4,7 @@ dist: trusty
 
 install:
 - mkdir -p bin && export PATH=$PWD/bin/:$PATH
-- curl -s -o /tmp/packer.zip https://releases.hashicorp.com/packer/1.0.0/packer_1.0.0_linux_amd64.zip
+- curl -s -o /tmp/packer.zip https://releases.hashicorp.com/packer/1.4.3/packer_1.4.3_linux_amd64.zip
 - unzip -p /tmp/packer.zip packer > bin/packer && chmod +x bin/packer
 
 script:
