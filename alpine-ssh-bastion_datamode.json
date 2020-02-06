@@ -47,8 +47,7 @@
       ],
 
       "iso_urls": ["{{user `iso_mirror`}}/v{{user `alpine_short_version`}}/releases/x86_64/alpine-virt-{{user `alpine_version`}}-x86_64.iso"],
-      "iso_checksum": "{{user `iso_checksum`}}",
-      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_checksum": "{{user `iso_checksum_type`}}:{{user `iso_checksum`}}",
 
       "http_directory": "http",
       "communicator": "ssh",
@@ -111,8 +110,7 @@
       "format": "qcow2",
 
       "iso_urls": ["{{user `iso_mirror`}}/v{{user `alpine_short_version`}}/releases/x86_64/alpine-virt-{{user `alpine_version`}}-x86_64.iso"],
-      "iso_checksum": "{{user `iso_checksum`}}",
-      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_checksum": "{{user `iso_checksum_type`}}:{{user `iso_checksum`}}",
 
       "http_directory": "http",
       "communicator": "ssh",
