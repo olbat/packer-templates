@@ -14,7 +14,7 @@
     "bintray_qemu_repository": "qemu",
     "bintray_virtualbox_repository": "virtualbox",
 
-    "alpine_version": "3.11.9",
+    "alpine_version": "3.11.10",
     "alpine_short_version": "3.11",
     "hostname": "bastion",
     "keymap": "us us",
@@ -28,7 +28,7 @@
     "admin_password": "I'm too lazy to change the admin password :(",
 
     "iso_mirror": "https://uk.alpinelinux.org/alpine",
-    "iso_checksum": "b868d3c6dbee44c8dcd7714d5a09a1f3f2e48ed2b8f2b8a093f20466161fe3b4d8942e395c5885e1054ab9f3f3d4ef3260b2fce76a290888da4384b8b18a97d6",
+    "iso_checksum": "56f291a9b541e27a70562f56152408a2736e3ed0d74713d3487157a9ecb5cfe5fdeda129544a10faf123710bfda9c7751878723da93c591309898d38e12c418a",
     "iso_checksum_type": "sha512"
   },
   "builders": [
